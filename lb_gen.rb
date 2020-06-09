@@ -24,7 +24,7 @@ DB.use(opts[:database])
 
 def createRecords(_maxscore, db, coll, batchSize)
   @docs = []
-  (0..batchSize).each do |_i|
+  (1..batchSize).each do |_i|
     doc = makeDoc(_maxscore)
     @docs << doc
   end
@@ -45,9 +45,13 @@ def makeDoc(_maxscore)
 end
 
 batches = opts[:records]/batchSize
-puts "going to make #{batches} batches of #{batchSize} docs"
+remainder = opts[:records]%batchSize
 
-(0..batches.to_i).each do |i|
+puts "going to make #{batches} batches of #{batchSize} docs with a remainder of #{remainder}"
+
+(1..batches.to_i).each do |i|
   createRecords(opts[:maxscore], DB, opts[:collection],batchSize)
   puts i
 end
+
+createRecords(opts[:maxscore], DB, opts[:collection],remainder)
