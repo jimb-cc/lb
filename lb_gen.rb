@@ -28,7 +28,7 @@ def createRecords(_maxscore, db, coll, batchSize)
     doc = makeDoc(_maxscore)
     @docs << doc
   end
-  puts "."
+  puts '.'
   coll = db[coll]
   result = coll.insert_many(@docs)
 end
@@ -38,20 +38,20 @@ def makeDoc(_maxscore)
     {
       'displayName' => "#{Faker::Esport.player}#{Faker::Beer.hop}",
       'score' => rand(_maxscore),
-      'level' => "#{Faker::Cosmere.shard}",
+      'level' => Faker::Cosmere.shard.to_s,
       'platform' => Faker::Game.platform,
       'ts' => Time.now
     }
 end
 
-batches = opts[:records]/batchSize
-remainder = opts[:records]%batchSize
+batches = opts[:records] / batchSize
+remainder = opts[:records] % batchSize
 
 puts "going to make #{batches} batches of #{batchSize} docs with a remainder of #{remainder}"
 
 (1..batches.to_i).each do |i|
-  createRecords(opts[:maxscore], DB, opts[:collection],batchSize)
+  createRecords(opts[:maxscore], DB, opts[:collection], batchSize)
   puts i
 end
 
-createRecords(opts[:maxscore], DB, opts[:collection],remainder)
+createRecords(opts[:maxscore], DB, opts[:collection], remainder)
