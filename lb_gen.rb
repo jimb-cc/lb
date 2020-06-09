@@ -4,6 +4,7 @@ require 'mongo'
 require 'faker'
 require 'slop'
 require 'awesome_print'
+require 'progress_bar'
 
 opts = Slop.parse do |o|
   o.string '-h', '--host', 'the connection string for the MongoDB cluster (default: localhost)', default: 'mongodb://localhost'
@@ -28,7 +29,7 @@ def createRecords(_maxscore, db, coll, batchSize)
     doc = makeDoc(_maxscore)
     @docs << doc
   end
-  puts '.'
+  
   coll = db[coll]
   result = coll.insert_many(@docs)
 end
@@ -47,11 +48,14 @@ end
 batches = opts[:records] / batchSize
 remainder = opts[:records] % batchSize
 
+bar = ProgressBar.new(batches)
+
+
 puts "going to make #{batches} batches of #{batchSize} docs with a remainder of #{remainder}"
 
 (1..batches.to_i).each do |i|
   createRecords(opts[:maxscore], DB, opts[:collection], batchSize)
-  puts i
+  bar.increment!
 end
 
 createRecords(opts[:maxscore], DB, opts[:collection], remainder)
