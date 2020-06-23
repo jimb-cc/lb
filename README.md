@@ -10,7 +10,7 @@ I tend to run about 10 containers in parallel, but you can scale this up or down
 
 # Output
 The documents generated look like this:
-`
+```
 {
 	"_id" : ObjectId("5ef1bb02393076d766c55744"),
 	"displayName" : "FakerMagnums",
@@ -27,7 +27,7 @@ The documents generated look like this:
 	"score" : 794505,
 	"update_count" : 1
 }
-`
+```
 # Indexes
 As this script uses Upserts, it's important to make sure you have an index on the collection you are upserting into.  This should be a good one:
 
