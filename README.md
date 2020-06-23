@@ -28,6 +28,8 @@ The documents generated look like this:
 	"update_count" : 1
 }
 ```
+Except that players have between 1 and 50 friends, the average is 25 (obviously)
+
 # Indexes
 As this script uses Upserts, it's important to make sure you have an index on the collection you are upserting into.  This should be a good one:
 
