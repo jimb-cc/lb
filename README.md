@@ -31,5 +31,5 @@ The documents generated look like this:
 # Indexes
 As this script uses Upserts, it's important to make sure you have an index on the collection you are upserting into.  This should be a good one:
 
-`db.lb.createIndex({ displayNmae: 1, platform: 1, level: 1 }) `
+`db.lb.createIndex({ displayName: 1, platform: 1, level: 1 }) `
 
