@@ -6,4 +6,4 @@ RUN gem install faker
 RUN gem install slop
 
 ADD lb_up.rb /home/
-CMD ruby /home/lb_up.rb -h $HOSTNAME
+CMD ruby /home/lb_up.rb -h $HOSTNAME -f $MAXNUMFRIENDS
