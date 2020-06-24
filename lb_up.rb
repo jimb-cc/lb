@@ -9,7 +9,7 @@ opts = Slop.parse do |o|
   o.string '-d', '--database', 'the database to use (default: leaderboard)', default: 'leaderboard'
   o.string '-c', '--collection', 'the collection to use (default: lb)', default: 'lb'
   o.integer '-m', '--maxscore', 'the highest possible score on the leaderboard (default: 1,000,000)', default: 1_000_000
-  o.integer '-f', '--maxfriends', 'The maximum amount of friends a player can have', default: 50
+  o.integer '-f', '--maxfriends', 'The maximum amount of friends a player can have', default: 10
   o.integer '-q', '--debugfreq', 'the number of updates to complete before reporting debug', default: 1000
 end
 
@@ -20,6 +20,12 @@ Mongo::Logger.logger.level = ::Logger::WARN
 puts "Connecting to #{opts[:host]}, and db #{opts[:database]}"
 DB = Mongo::Client.new(opts[:host])
 DB.use(opts[:database])
+
+
+DB[opts[:collection]].indexes.create_one(
+  { displayName: 1, platform:1, level:1 },
+  name:"ix_dpl",
+)
 
 def makeDoc(db, coll, max_score, max_friends)
   friends = []
