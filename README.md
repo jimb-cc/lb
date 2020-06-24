@@ -34,7 +34,8 @@ The documents generated look like this:
 Except that players have between 1 and 10 friends, the average is 5 (obviously)
 
 # Indexes
-The Script now also builds an index to support the upserts. 
+The Script now also builds an index to support the upserts.
+ 
 `db.lb.createIndex({ displayName: 1, platform: 1, level: 1 }) `
 
 
