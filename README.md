@@ -8,6 +8,9 @@ The best way to run this script is via Docker, I have pre-built a docker contain
 
 I tend to run about 10 containers in parallel, but you can scale this up or down as needed.
 
+you can also use the environment variable MAXNUMFRIENDS to influence how many friends a player can randomly be given. Note, every update to a player will just assign a bunch of new random friends.  There is nothing smart or clever about this.  `-e MAXNUMFRIENDS=20` the default has been set at 10 (this is useful for reducing the size of the dataset)
+
+
 # Output
 The documents generated look like this:
 ```
@@ -31,8 +34,7 @@ The documents generated look like this:
 Except that players have between 1 and 50 friends, the average is 25 (obviously)
 
 # Indexes
-As this script uses Upserts, it's important to make sure you have an index on the collection you are upserting into.  This should be a good one:
-
+The Script now also builds an index to support the upserts. 
 `db.lb.createIndex({ displayName: 1, platform: 1, level: 1 }) `
 
-I'll get round to adding this into the code at somepoint
+
