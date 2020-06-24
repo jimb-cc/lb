@@ -31,7 +31,7 @@ The documents generated look like this:
 	"update_count" : 1
 }
 ```
-Except that players have between 1 and 50 friends, the average is 25 (obviously)
+Except that players have between 1 and 10 friends, the average is 5 (obviously)
 
 # Indexes
 The Script now also builds an index to support the upserts. 
