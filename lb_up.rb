@@ -13,7 +13,7 @@ opts = Slop.parse do |o|
   o.integer '-q', '--debugfreq', 'the number of updates to complete before reporting debug', default: 1000
 end
 
-max_friends = 20
+max_friends = 10
 # set the logger level for the mongo driver
 Mongo::Logger.logger.level = ::Logger::WARN
 
@@ -27,11 +27,21 @@ DB[opts[:collection]].indexes.create_one(
   name:"ix_dpl",
 )
 
+
 def makeDoc(db, coll, max_score, max_friends)
   friends = []
-  (1..(rand(max_friends) + 1)).each do
-    friends << "#{Faker::Esport.player}#{Faker::Beer.hop}"
+ 
+  freindAgg = db[coll].aggregate([{ '$sample' => { 'size' => rand(max_friends)+1 } }, { '$project' => { '_id' => 0 , 'displayName' => 1 } }])
+  freindAgg.each do |doc|
+    friends << doc[:displayName]
   end
+  puts friends
+  puts "\n\n"
+
+ 
+ # (1..(rand(max_friends) + 1)).each do
+ #   friends << "#{Faker::Esport.player}#{Faker::Beer.hop}"
+ # end
 
   result = db[coll].update_one({  'displayName' => "#{Faker::Esport.player}#{Faker::Beer.hop}#{[:"", :s, :er].sample}",
                                   'level' => Faker::Cosmere.shard.to_s,
