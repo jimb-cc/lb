@@ -30,8 +30,8 @@ def createRecords(max_score, db, coll, batchSize, max_friends)
     doc = makeDoc(max_score, max_friends)
     @docs << doc
   end
-  
-  #coll = db[coll]
+
+  # coll = db[coll]
   result = db[coll].insert_many(@docs)
 end
 
@@ -44,12 +44,12 @@ def makeDoc(max_score, max_friends)
       'platform' => Faker::Game.platform,
       'ts' => Time.now
     }
-    friends = []
-    (1..(rand(max_friends)+1)).each do
-      friends << "#{Faker::Esport.player}#{Faker::Beer.hop}"
-    end
-    doc["friends"] = friends
-    doc
+  friends = []
+  (1..(rand(max_friends) + 1)).each do
+    friends << "#{Faker::Esport.player}#{Faker::Beer.hop}"
+  end
+  doc['friends'] = friends
+  doc
 end
 
 batches = opts[:records] / batchSize
@@ -57,10 +57,9 @@ remainder = opts[:records] % batchSize
 
 bar = ProgressBar.new(batches)
 
-
 puts "going to make #{batches} batches of #{batchSize} docs with a remainder of #{remainder}"
 
-(1..batches.to_i).each do |i|
+(1..batches.to_i).each do |_i|
   createRecords(opts[:maxscore], DB, opts[:collection], batchSize, max_friends)
   bar.increment!
 end

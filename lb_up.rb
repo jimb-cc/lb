@@ -13,7 +13,7 @@ opts = Slop.parse do |o|
   o.integer '-q', '--debugfreq', 'the number of updates to complete before reporting debug', default: 1000
   o.integer '-r', '--refreshfriends', 'the number of updates to complete before refreshing friendlistpool', default: 10000
   o.integer '-p', '--friendpoolsamplesize', 'the number of friends in the pool', default: 1000
-  
+
 end
 # globalVar for the friend pool
 $friendPool = []
@@ -42,8 +42,7 @@ end
 def makeDoc(db, coll, max_score, max_friends)
   result = db[coll].update_one({  'displayName' => "#{Faker::Esport.player}#{Faker::Beer.hop}#{[:"", :s, :er].sample}",
                                   'level' => Faker::Cosmere.shard.to_s,
-                                  'platform' => Faker::Game.pla
-                                  tform },
+                                  'platform' => Faker::Game.platform },
                                {
                                  '$set' => { 'score' => rand(max_score), 'last_updated' => Time.now, 'friends' => $friendPool.sample(rand(max_friends)) },
                                  '$inc' => { 'update_count': 1 }
